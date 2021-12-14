@@ -41,8 +41,10 @@ const displayContactList = (data) => {
           <button class="btn__icon delete__btn">
             <i class="fas fa-trash-alt"></i>
           </button>
+          <div class="editBtn">
           <button class="btn__icon edit__btn">
             <i class="far fa-edit"></i>
+            </div>
           </button>
         </div>`
   );
@@ -52,10 +54,14 @@ const displayContactList = (data) => {
     $(this).parent('div').remove();
   });
 
-  $('.edit__btn').click(function (e) {
+  // update
+  $('.editBtn').click(function (e) {
     // console.log(e);
-    console.log('hey update');
+    let selectedRow = $(this).parents('div');
+    console.log(selectedRow);
+    $('.update-modal').css('display', 'block').show();
   });
+  $('.close-modal').click(() => $('.update-modal').css('display', 'none'));
 };
 
 // add new contact
