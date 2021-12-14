@@ -1,19 +1,26 @@
 $(document).ready(function () {});
 
-// let contacts = [];
+let contacts = [];
+let index;
 
-// current contact being edited
-let _row = null;
+const contactsKey = 'contacts';
+
+// save array of contacts to local storage
+// const saveContacts = function () {
+//   localStorage.setItem(contactsKey, JSON.stringify(contacts));
+// };
 
 // fetch json data
 async function getData(url) {
   const res = await fetch(url);
-  const contacts = await res.json();
+  contacts = await res.json();
+  console.log('new way', contacts);
   // populate contact rows
   for (const contact of contacts) {
     console.log(contact);
     displayContactList(contact);
   }
+  index = contacts.length - 1;
 }
 
 getData('data.json');
@@ -41,10 +48,8 @@ const displayContactList = (data) => {
           <button class="btn__icon delete__btn">
             <i class="fas fa-trash-alt"></i>
           </button>
-          <div class="editBtn">
           <button class="btn__icon edit__btn">
             <i class="far fa-edit"></i>
-            </div>
           </button>
         </div>`
   );
@@ -55,9 +60,8 @@ const displayContactList = (data) => {
   });
 
   // update
-  $('.editBtn').click(function (e) {
-    // console.log(e);
-    let selectedRow = $(this).parents('div');
+  $('.edit__btn').click(function (e) {
+    let selectedRow = $(this).parents();
     console.log(selectedRow);
     $('.update-modal').css('display', 'block').show();
   });
@@ -73,20 +77,34 @@ $('.add__btn').click(function (e) {
 $('.close-modal').click(() => $('.simple-modal').css('display', 'none'));
 
 const createContact = function () {
-  let id;
+  // let id;
   // new contact input field
-  const firstName = $('#inputFirstName').val();
-  const lastName = $('#inputLastName').val();
-  const telephone = $('#inputTelephone').val();
-  const address = $('#inputAddress').val();
-  const email = $('#inputEmail').val();
+  const newFirstName = $('#inputFirstName').val();
+  const newLastName = $('#inputLastName').val();
+  const newTelephone = $('#inputTelephone').val();
+  const newAddress = $('#inputAddress').val();
+  const newEmail = $('#inputEmail').val();
+
+  const newContact = {
+    id: Date.now(),
+    firstName: newFirstName,
+    lastName: newLastName,
+    telephone: newTelephone,
+    address: newAddress,
+    email: newEmail,
+  };
+
+  console.log(newContact);
+  contacts.push(newContact);
+  // saveContacts(); // to put the arrays to the local storage
+  console.log('new contact added', contacts);
 
   if (
-    firstName === '' ||
-    lastName === '' ||
-    telephone === '' ||
-    address === '' ||
-    email === ''
+    newFirstName === '' ||
+    newLastName === '' ||
+    newTelephone === '' ||
+    newAddress === '' ||
+    newEmail === ''
   ) {
     return;
   }
@@ -101,13 +119,13 @@ const createContact = function () {
                 text-light
                 p-1
               "
-              >${firstName[0]}${lastName[0]}</span
+              >${newFirstName[0]}${newLastName[0]}</span
             >
           </div>
-          <div class="contact__name">${firstName} ${lastName}</div>
-          <div class="contact__mobile">${telephone}</div>
-          <div class="contact__email">${email}</div>
-          <div class="contact__address">${address}</div>
+          <div class="contact__name">${newFirstName} ${newLastName}</div>
+          <div class="contact__mobile">${newTelephone}</div>
+          <div class="contact__email">${newEmail}</div>
+          <div class="contact__address">${newAddress}</div>
             
           <button class="btn__icon delete__btn">
             <i class="fas fa-trash-alt"></i>
@@ -116,11 +134,20 @@ const createContact = function () {
             <i class="far fa-edit"></i>
           </button>
         </div>`);
+
   // delete
   $('.delete__btn').click(function (e) {
     console.log(e);
     $(this).parent('div').remove();
   });
+
+  // update
+  $('.edit__btn').click(function (e) {
+    let selectedRow = $(this).parents();
+    console.log(selectedRow);
+    $('.update-modal').css('display', 'block').show();
+  });
+  $('.close-modal').click(() => $('.update-modal').css('display', 'none'));
 
   formClear();
 };
@@ -139,4 +166,11 @@ $('.save-btn').click((e) => {
   createContact();
 });
 
-// update
+console.log('added', contacts);
+// const savedContacts = localStorage.getItem(contactsKey);
+
+// if (savedContacts !== null) {
+//   const parsedContacts = JSON.parse(savedContacts);
+//   // contacts = parsedContacts;
+//   parsedContacts.forEach(createContact);
+// }
