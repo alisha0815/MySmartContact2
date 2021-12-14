@@ -1,0 +1,296 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+:root {
+  --nav-color: #eff7cf;
+  --text-color: #424245;
+  --header-color: #3dda84;
+  --icon-color: #073042;
+  --btn-icon-color: #e34140;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.navbar {
+  background-color: var(--nav-color);
+  padding: 30px 53px;
+  margin-bottom: 10px;
+}
+
+.navbar__logo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: bolder;
+  color: var(--icon-color);
+  padding-left: 30px;
+}
+
+.logo__icon {
+  color: var(--btn-icon-color);
+}
+
+.container {
+  width: 900px;
+  margin: 0 auto;
+}
+
+.search {
+  padding-right: 30px;
+}
+
+.search__bar {
+  text-align: center;
+}
+
+.search__area {
+  text-align: center;
+  border: none;
+  padding: 5px;
+  height: 50px;
+  border-radius: 5px 0 0 5px;
+  color: var(--text-color);
+  outline-style: none;
+  font-size: 20px;
+}
+
+.search__btn {
+  width: 60px;
+  height: 50px;
+  border: none;
+  background: var(--header-color);
+  text-align: center;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.add__contact {
+  padding: 20px;
+}
+
+.add__btn {
+  height: 60px;
+  cursor: pointer;
+  background-color: var(--header-color);
+  border-radius: 15px;
+  padding: 10px;
+  border: none;
+}
+.add__btn > i {
+  color: var(--icon-color);
+  font-size: 30px;
+  border-style: none;
+  font-style: bolder;
+  padding: 5px;
+}
+
+.add__btn__text {
+  font-size: 25px;
+  color: var(--icon-color);
+}
+
+.btn__icon {
+  outline: none;
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 25px;
+  cursor: pointer;
+  transform: all 300ms ease-in;
+}
+
+.btn__icon:hover {
+  color: var(--btn-icon-color);
+  transform: scale(1.3);
+}
+
+.add__btn:hover {
+  background-color: var(--btn-icon-color);
+  transition: transform 300ms ease-in;
+}
+
+.contact__header__row {
+  font-weight: bolder;
+  color: var(--icon-color);
+}
+
+.contact__header__row,
+.details__contact {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+.contacts__row {
+  color: var(--text-color);
+  overflow-y: auto;
+}
+
+.details__contact {
+  margin-bottom: 30px;
+}
+
+.contact__header__name,
+.contact__header__mobile,
+.contact__header__email,
+.contact__name,
+.contact__mobile,
+.contact__email {
+  flex-basis: 30%;
+}
+
+.delete__btn__column,
+.edit__btn__column,
+.delete__btn,
+.edit__but {
+  flex-basis: 10%;
+}
+
+.contact__header__address,
+.contact__address {
+  flex-basis: 40%;
+}
+
+.contact__divider {
+  width: 95%;
+  height: 1px;
+  background-color: var(--header-color);
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.contact__header__row {
+  margin-bottom: 30px;
+  font-weight: bolder;
+  color: var(--icon-color);
+}
+
+.contact__container {
+  margin-top: 50px;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.simple-modal {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  z-index: 10;
+}
+
+.update-modal {
+  /* display: none; */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  z-index: 10;
+}
+
+.close-modal {
+  position: absolute;
+  top: 1.2rem;
+  right: 2rem;
+  font-size: 2rem;
+  color: #ccc;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+  color: var(--icon-color);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.form-content {
+  margin: 30px 20px;
+}
+
+.btn-modal {
+  text-align: center;
+}
+
+.cancel-btn,
+.save-btn {
+  height: 40px;
+  cursor: pointer;
+  margin: 0 10px;
+  border-radius: 10px;
+  padding: 10px;
+  border: none;
+  width: 20%;
+}
+
+.new-contact-btn {
+  color: var(--icon-color);
+  font-size: 20px;
+  border-style: none;
+  font-style: bolder;
+  padding: 5px;
+}
+
+.modal-title {
+  margin-top: 40px;
+  text-align: center;
+  color: var(--icon-color);
+  font-size: 28px;
+  font-weight: bolder;
+}
+
+.add-icon {
+  color: var(--btn-icon-color);
+  font-size: 28px;
+}
+
+.add-tag-icon {
+  color: var(--header-color);
+  font-size: 18px;
+}
+
+.form-group {
+  font-size: 18px;
+  color: var(--icon-color);
+  font-weight: bolder;
+}
+
+.save-btn {
+  color: #fff;
+  font-size: 20px;
+  background-color: var(--btn-icon-color);
+}
+
+.cancel-btn {
+  color: var(--header-color);
+  font-size: 20px;
+  background-color: #fff;
+  border: 1px solid var(--header-color);
+}
+
+.save-btn:hover {
+  color: #fff;
+  background-color: var(--icon-color);
+  transition: transform 300ms ease-in;
+}
+
+.cancel-btn:hover {
+  color: #fff;
+  background-color: var(--header-color);
+  transition: transform 300ms ease-in;
+}
