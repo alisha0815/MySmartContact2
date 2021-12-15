@@ -4,7 +4,7 @@
 
 const addBtn = $('.add__btn');
 const saveBtn = $('.save-btn');
-const deletBtn = $('.delete__btn');
+const deleteBtn = $('.delete__btn');
 const addModal = $('.simple-modal');
 const closeModal = $('.close-modal');
 
@@ -141,23 +141,22 @@ const onClickSave = function () {
 onClickSave();
 
 // Delete contacts
-// const delContact = function (id) {
-//   const target = contacts.filter((contact) => contact.id === id);
-//   contacts.splice(target, 1);
-// };
-
-// find the targeted item
-// delete from the array
-// display
 
 $('.delete__btn').click(function (e) {
-  console.log(e);
+  // console.log(e);
   const target = $(this).parent('div');
-  // $(this).parent('div').remove();
-  // console.log(target[0].id);
+
+  console.log(target[0].id);
   const targetID = target[0].id;
-  contacts.splice(targetID, 1);
-  // console.log(contacts);
+  for (let i = 0; i < contacts.length; i++) {
+    if (contacts[i].id === targetID) {
+      contacts.splice(i, 1);
+    }
+  }
+  console.log(contacts);
+  // contacts = contacts.id.filter((el) => el !== targetID);
+
+  // $(this).parent('div').remove();
 });
 
 console.log('deleted', contacts);
