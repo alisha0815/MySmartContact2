@@ -1,24 +1,17 @@
-$(document).ready(function () {});
+'use strict';
 
-let contacts = [];
+// initial setup
 
-// fetch json data
-// async function getData(url) {
-//   const res = await fetch(url);
-//   const contacts = await res.json();
-//   console.log(contacts);
-//   // populate contact rows
-//   for (const contact of contacts) {
-//     console.log(contact);
-//     displayContactList(contact);
-//   }
-// }
+const addBtn = $('.add__btn');
+const saveBtn = $('.save-btn');
+const deletBtn = $('.delete__btn');
+const addModal = $('.simple-modal');
+const closeModal = $('.close-modal');
 
-// getData('data.json');
-
-contacts = [
+// demo data (the data could be fetched from data.json)
+const contacts = [
   {
-    id: 0,
+    id: '0',
     firstName: 'Allie',
     lastName: 'Greve',
     telephone: '98702781',
@@ -26,7 +19,7 @@ contacts = [
     email: 'allie98@gmail.com',
   },
   {
-    id: 1,
+    id: '1',
     firstName: 'Tora',
     lastName: 'Martin',
     telephone: '47943890',
@@ -34,7 +27,7 @@ contacts = [
     email: 'toramartin@gmail.com',
   },
   {
-    id: 2,
+    id: '2',
     firstName: 'Embla',
     lastName: 'Gudmund',
     telephone: '9611098',
@@ -43,10 +36,12 @@ contacts = [
   },
 ];
 
-// display json data
+// Display data
 const displayContactList = () => {
-  for (contact of contacts) {
-    $('.contacts__row').append(`<div class="details__contact">
+  // console.log(contacts);
+  let htmlStr = '';
+  for (const contact of contacts) {
+    htmlStr += `<div class="details__contact" id=${contact.id}>
           <div class="avatar">
             <span
               class="
@@ -63,75 +58,111 @@ const displayContactList = () => {
           <div class="contact__mobile">${contact.telephone}</div>
           <div class="contact__email">${contact.email}</div>
           <div class="contact__address">${contact.address}</div>
-          <button class="btn__icon delete__btn">
+          <button class="btn__icon delete__btn" >
             <i class="fas fa-trash-alt"></i>
           </button>
           <button class="btn__icon edit__btn">
             <i class="far fa-edit"></i>
           </button>
-        </div>`);
+        </div>`;
+    $('.contacts__row').html(htmlStr);
   }
 };
 
-// delete
-// $('.delete__btn').click(function (e) {
-//   console.log(e);
-//   $(this).parent('div').remove();
-// });
+displayContactList();
 
-// $('.edit__btn').click(function (e) {
-//   // console.log(e);
-//   console.log('hey update');
-// });
+// Add new contact
+const onClickAdd = function () {
+  addBtn.click(function (e) {
+    e.preventDefault();
+    // add modal
+    addModal.css('display', 'block').show();
+    closeModal.click(() => addModal.css('display', 'none'));
+  });
+};
 
-// add new contact
-$('.add__btn').click(function (e) {
-  console.log(e);
-  $('.simple-modal').css('display', 'block').show();
-});
+onClickAdd();
 
-$('.close-modal').click(() => $('.simple-modal').css('display', 'none'));
-
+// Create new contact
 const createContact = function () {
-  // new contact input field
-  const newId = Date.now();
-  const firstName = $('#inputFirstName').val();
-  const lastName = $('#inputLastName').val();
-  const telephone = $('#inputTelephone').val();
-  const address = $('#inputAddress').val();
-  const email = $('#inputEmail').val();
-
   let newObj = {};
-  newObj = {
-    id: newId,
-    firstName: firstName,
-    lastName: lastName,
-    telephone: telephone,
-    address: address,
-    email: email,
-  };
+  const newId = Date.now();
+  const inputFirstName = $('#inputFirstName').val();
+  const inputLastName = $('#inputLastName').val();
+  const inputTel = $('#inputTelephone').val();
+  const inputAddress = $('#inputAddress').val();
+  const inputEmail = $('#inputEmail').val();
 
-  contacts.push(newObj);
-  console.log(contacts);
-
+  // check if input fields are empty (later more validation needs to be implemented)
   if (
-    firstName === '' ||
-    lastName === '' ||
-    telephone === '' ||
-    address === '' ||
-    email === ''
+    inputFirstName === '' ||
+    inputLastName === '' ||
+    inputTel === '' ||
+    inputAddress === '' ||
+    inputEmail === ''
   ) {
     return;
+  } else {
+    newObj = {
+      id: newId,
+      firstName: inputFirstName,
+      lastName: inputLastName,
+      telephone: inputTel,
+      address: inputAddress,
+      email: inputEmail,
+    };
+    console.log(newObj);
+    contacts.push(newObj);
+    console.log('added', contacts); // contacts populated
+    newObj = {};
+    formClear();
+    onClickSave();
   }
-  formClear();
 };
 
-// const onClickSave = function () {
-//   $('.save-btn').click((e) => {
-//     e.preventDefault();
-//     displayContactList();
-//   });
+// clear form
+const formClear = function () {
+  $('#inputFirstName').val('');
+  $('#inputLastName').val('');
+  $('#inputTelephone').val('');
+  $('#inputAddress').val('');
+  $('#inputEmail').val('');
+};
+
+// Save function
+const onClickSave = function () {
+  saveBtn.click((e) => {
+    e.preventDefault();
+    createContact();
+    displayContactList();
+  });
+};
+
+onClickSave();
+
+// Delete contacts
+// const delContact = function (id) {
+//   const target = contacts.filter((contact) => contact.id === id);
+//   contacts.splice(target, 1);
 // };
+
+// find the targeted item
+// delete from the array
+// display
+
+$('.delete__btn').click(function (e) {
+  console.log(e);
+  const targetID =
+    e.console; // $(this).parent('div').remove();
+  console.log('hey deleted!');
+});
+
+console.log('deleted', contacts);
+// onClickDelete();
+
+// $(this).parent('div').remove();
+
+// Edit contacts
 
 // onClickSave();
 // $('.contacts__row').append(`<div class="details__contact">
@@ -160,23 +191,39 @@ const createContact = function () {
 //         </button>
 //       </div>`);
 
+// fetch json data
+// async function getData(url) {
+//   try {
+//     const res = await fetch(url);
+//     const data = await res.json();
+//     contacts.push(data);
+//     console.log(contacts);
+//     // populate contact rows
+//     for (const contact of contacts) {
+//       console.log(contact);
+//       // displayContactList(contact);
+//     }
+//   } catch (err) {
+//     console.error(err);
+//   }
+// }
+
+// console.log('data', contacts);
+// getData('data.json');
+
 // delete
 // $('.delete__btn').click(function (e) {
 //   console.log(e);
 //   $(this).parent('div').remove();
 // });
 
-console.log('added', contacts);
-// clear form
-const formClear = function () {
-  $('#inputFirstName').val('');
-  $('#inputLastName').val('');
-  $('#inputTelephone').val('');
-  $('#inputAddress').val('');
-  $('#inputEmail').val('');
-};
-// add btn
+// $('.edit__btn').click(function (e) {
+//   // console.log(e);
+//   console.log('hey update');
+// });
 
-// delete
-console.log('heyyyyy', contacts);
-displayContactList();
+// // add btn
+
+// // delete
+// console.log('heyyyyy', contacts);
+// displayContactList();
