@@ -152,9 +152,12 @@ onClickSave();
 
 $('.delete__btn').click(function (e) {
   console.log(e);
-  const targetID =
-    e.console; // $(this).parent('div').remove();
-  console.log('hey deleted!');
+  const target = $(this).parent('div');
+  // $(this).parent('div').remove();
+  // console.log(target[0].id);
+  const targetID = target[0].id;
+  contacts.splice(targetID, 1);
+  // console.log(contacts);
 });
 
 console.log('deleted', contacts);
