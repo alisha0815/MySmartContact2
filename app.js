@@ -113,6 +113,11 @@ const onClickUpdate = function () {
 
 onClickUpdate();
 
+// capitalize first letter of name
+const capitalizeFirstLetter = function (name) {
+  return name.slice(0, 1).toUpperCase() + name.slice(1).toLowerCase();
+};
+
 // clear form
 const formClear = function () {
   $('#inputFirstName').val('');
@@ -159,7 +164,9 @@ const displayContactList = (contacts) => {
               >${contact.firstName[0]}${contact.lastName[0]}</span
             >
           </div>
-          <div class="contact__name">${contact.firstName} ${contact.lastName}</div>
+          <div class="contact__name">${capitalizeFirstLetter(
+            contact.firstName
+          )} ${capitalizeFirstLetter(contact.lastName)}</div>
           <div class="contact__mobile">${contact.telephone}</div>
           <div class="contact__email">${contact.email}</div>
           <div class="contact__address">${contact.address}</div>
@@ -224,20 +231,24 @@ const onClickSave = function () {
 
 console.log(contacts);
 // Search
-searchInput.keyup(function (e) {
-  // console.log(e.target.value);
-  const searchString = e.target.value.toLowerCase();
-  console.log(searchString);
-  const filteredContacts = contacts.filter((contact) => {
-    return (
-      contact.firstName.toLowerCase().includes(searchString) ||
-      contact.lastName.toLowerCase().includes(searchString)
-    );
+const searchContact = function () {
+  searchInput.keyup(function (e) {
+    // console.log(e.target.value);
+    const searchString = e.target.value.toLowerCase();
+    console.log(searchString);
+    const filteredContacts = contacts.filter((contact) => {
+      return (
+        contact.firstName.toLowerCase().includes(searchString) ||
+        contact.lastName.toLowerCase().includes(searchString)
+      );
+    });
+    console.log(filteredContacts);
+    displayContactList(filteredContacts);
   });
-  console.log(filteredContacts);
-  displayContactList(filteredContacts);
-});
+};
+
 onClickEdit();
 onClickSave();
 onClickAdd();
 displayContactList(contacts);
+searchContact();
