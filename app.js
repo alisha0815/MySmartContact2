@@ -49,15 +49,15 @@ const onClickEdit = function () {
 
     // find the contact with the target ID in the array of contacts
     // fill in the preinput
-    let [newArr] = contacts.filter((ele) => ele.id === targetID);
+    const [newArr] = contacts.filter((ele) => ele.id === targetID);
     console.log('newArr', newArr);
     console.log(newArr.firstName);
 
-    let editFirstName = newArr.firstName;
-    let editLastName = newArr.lastName;
-    let editTelephone = newArr.telephone;
-    let editAddress = newArr.address;
-    let editEmail = newArr.email;
+    const editFirstName = newArr.firstName;
+    const editLastName = newArr.lastName;
+    const editTelephone = newArr.telephone;
+    const editAddress = newArr.address;
+    const editEmail = newArr.email;
 
     console.log(
       editFirstName,
@@ -67,11 +67,11 @@ const onClickEdit = function () {
       editEmail
     );
 
-    editFirstName = $('#inputFirstName').val();
-    $('#inputLastName').val(editLastName);
-    $('#inputTelephone').val(editTelephone);
-    $('#inputAddress').val(editAddress);
-    $('#inputEmail').val(editEmail);
+    $('#update-inputFirstName').val(editFirstName);
+    $('#update-inputLastName').val(editLastName);
+    $('#update-inputTelephone').val(editTelephone);
+    $('#update-inputAddress').val(editAddress);
+    $('#update-inputEmail').val(editEmail);
   });
 
   formClear();
@@ -85,10 +85,11 @@ const formClear = function () {
   $('#inputAddress').val('');
   $('#inputEmail').val('');
 };
+
 // Delete contacts
 const onClickDelete = function () {
   $('.delete__btn').click(function (e) {
-    // console.log(e);
+    // e.preventDefault();
     const target = $(this).parent('div');
 
     // console.log(target[0].id);
@@ -97,14 +98,14 @@ const onClickDelete = function () {
       if (contacts[i].id === targetID) {
         contacts.splice(i, 1);
       }
-      displayContactList();
     }
-    console.log(contacts); // displayContactList();
-    displayContactList();
+    console.log(contacts);
+    // displayContactList();
+    $(this).parent('div').remove();
   });
 };
 
-// Display data
+// Display contact list
 const displayContactList = () => {
   // console.log(contacts);
   let htmlStr = '';
@@ -166,13 +167,24 @@ const onClickSave = function () {
       inputEmail
     );
     console.log(newContact);
-    contacts.unshift(newContact);
-    displayContactList();
-    console.log('added', contacts);
+
+    if (
+      inputFirstName === '' ||
+      inputLastName === '' ||
+      inputTel === '' ||
+      inputAddress === '' ||
+      inputEmail === ''
+    ) {
+      return;
+    } else {
+      contacts.unshift(newContact);
+      displayContactList();
+      console.log('added', contacts);
+      formClear();
+    }
   });
 };
 
-console.log('finaladded', contacts[0]);
 onClickDelete();
 onClickEdit();
 onClickSave();
