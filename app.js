@@ -5,9 +5,12 @@ const addBtn = $('.add__btn');
 const saveBtn = $('.save-btn');
 const deleteBtn = $('.delete__btn');
 const editBtn = $('.edit__btn');
+const searchBtn = $('.search__btn');
+const searchInput = $('#searchQuery');
 const addModal = $('.simple-modal');
 const editModal = $('update-modal');
 const closeModal = $('.close-modal');
+
 const contacts = [];
 
 class Contact {
@@ -31,13 +34,30 @@ const contact1 = new Contact(
   'allie98@gmail.com'
 );
 
-contacts.unshift(contact1);
+const contact2 = new Contact(
+  'Tora',
+  'Martin',
+  '47943890',
+  'Drangedalsgata 138, Skien',
+  'toramartin@gmail.com'
+);
+
+const contact3 = new Contact(
+  'Embla',
+  'Gudmund',
+  '9611098',
+  'Holmstubben 84, Jessheim',
+  'mund90@gmail.com'
+);
+
+contacts.unshift(contact1, contact2, contact3);
 console.log(contacts);
 
 // Edit contacts
 const onClickEdit = function () {
   // open edit modal
   $('.edit__btn').click(function (e) {
+    e.preventDefault();
     // open the edit modal
     $('.update-modal').css('display', 'block').show();
     $('.close-modal').click(() => $('.update-modal').css('display', 'none'));
@@ -45,14 +65,15 @@ const onClickEdit = function () {
     // find the target ID
     const target = $(this).parent('div');
     const targetID = target[0].id;
-    console.log(targetID);
+    console.log('target id', targetID);
 
-    // find the contact with the target ID in the array of contacts
-    // fill in the preinput
+    // find the target id
     const [newArr] = contacts.filter((ele) => ele.id === targetID);
+
     console.log('newArr', newArr);
     console.log(newArr.firstName);
 
+    // fill in the preinput
     const editFirstName = newArr.firstName;
     const editLastName = newArr.lastName;
     const editTelephone = newArr.telephone;
@@ -66,16 +87,31 @@ const onClickEdit = function () {
       editAddress,
       editEmail
     );
-
+    // pre input for edit modal
     $('#update-inputFirstName').val(editFirstName);
     $('#update-inputLastName').val(editLastName);
     $('#update-inputTelephone').val(editTelephone);
     $('#update-inputAddress').val(editAddress);
     $('#update-inputEmail').val(editEmail);
-  });
 
-  formClear();
+    // update
+
+    console.log(
+      'updated firstname',
+      (newArr.firstName = $('#update-inputFirstName').text())
+    );
+  });
 };
+
+// update click
+const onClickUpdate = function () {
+  $('.update-save-btn').click((e) => {
+    e.preventDefault();
+    console.log(e);
+  });
+};
+
+onClickUpdate();
 
 // clear form
 const formClear = function () {
@@ -106,7 +142,7 @@ const onClickDelete = function () {
 };
 
 // Display contact list
-const displayContactList = () => {
+const displayContactList = (contacts) => {
   // console.log(contacts);
   let htmlStr = '';
   for (const contact of contacts) {
@@ -166,6 +202,7 @@ const onClickSave = function () {
       inputAddress,
       inputEmail
     );
+
     console.log(newContact);
 
     if (
@@ -178,15 +215,26 @@ const onClickSave = function () {
       return;
     } else {
       contacts.unshift(newContact);
-      displayContactList();
-      console.log('added', contacts);
       formClear();
+      displayContactList(contacts);
+      console.log('added', contacts);
     }
   });
 };
 
-onClickDelete();
+console.log(contacts);
+// Search
+searchInput.keyup(function (e) {
+  // console.log(e.target.value);
+  const searchString = e.target.value.toLowerCase();
+  console.log(searchString);
+  const filteredContacts = contacts.filter((contact) => {
+    return contact.firstName.toLowerCase().includes(searchString);
+  });
+  console.log(filteredContacts);
+  displayContactList(filteredContacts);
+});
 onClickEdit();
 onClickSave();
 onClickAdd();
-displayContactList();
+displayContactList(contacts);

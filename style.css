@@ -228,7 +228,8 @@
 }
 
 .cancel-btn,
-.save-btn {
+.save-btn,
+.update-save-btn {
   height: 40px;
   cursor: pointer;
   margin: 0 10px;
@@ -270,7 +271,8 @@
   font-weight: bolder;
 }
 
-.save-btn {
+.save-btn,
+.update-save-btn {
   color: #fff;
   font-size: 20px;
   background-color: var(--btn-icon-color);
@@ -283,7 +285,8 @@
   border: 1px solid var(--header-color);
 }
 
-.save-btn:hover {
+.save-btn:hover,
+.update-save-btn:hover {
   color: #fff;
   background-color: var(--icon-color);
   transition: transform 300ms ease-in;
