@@ -229,7 +229,10 @@ searchInput.keyup(function (e) {
   const searchString = e.target.value.toLowerCase();
   console.log(searchString);
   const filteredContacts = contacts.filter((contact) => {
-    return contact.firstName.toLowerCase().includes(searchString);
+    return (
+      contact.firstName.toLowerCase().includes(searchString) ||
+      contact.lastName.toLowerCase().includes(searchString)
+    );
   });
   console.log(filteredContacts);
   displayContactList(filteredContacts);
