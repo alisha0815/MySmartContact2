@@ -55,6 +55,7 @@
   border: none;
   padding: 5px;
   height: 50px;
+  width: 400px;
   border-radius: 5px 0 0 5px;
   color: var(--text-color);
   outline-style: none;

@@ -5,18 +5,17 @@ const addBtn = $('.add__btn');
 const saveBtn = $('.save-btn');
 const deleteBtn = $('.delete__btn');
 const editBtn = $('.edit__btn');
-const searchBtn = $('.search__btn');
+// const searchBtn = $('.search__btn');
 const searchInput = $('#searchQuery');
 const addModal = $('.simple-modal');
 const editModal = $('update-modal');
 const closeModal = $('.close-modal');
 
-const contacts = [];
+let contacts = [];
 
 class Contact {
-  id = (Date.now() + '').slice(-10);
-
   constructor(firstName, lastName, telephone, address, email) {
+    this.id = (Date.now() + '').slice(-10);
     this.firstName = firstName;
     this.lastName = lastName;
     this.telephone = telephone;
@@ -26,32 +25,56 @@ class Contact {
 }
 
 //demo data
-const contact1 = new Contact(
-  'Allie',
-  'Greve',
-  '98702781',
-  'Reistadhagen 140, Nesbru',
-  'allie98@gmail.com'
-);
+contacts = [
+  {
+    id: '0',
+    firstName: 'Allie',
+    lastName: 'Greve',
+    telephone: '98702781',
+    address: 'Reistadhagen 140, Nesbru',
+    email: 'allie98@gmail.com',
+  },
+  {
+    id: '1',
+    firstName: 'Tora',
+    lastName: 'Martin',
+    telephone: '47943890',
+    address: 'Drangedalsgata 138, Skien',
+    email: 'toramartin@gmail.com',
+  },
+  {
+    id: '2',
+    firstName: 'Embla',
+    lastName: 'Gudmund',
+    telephone: '9611098',
+    address: 'Holmstubben 84, Jessheim',
+    email: 'mund90@gmail.com',
+  },
+  {
+    id: '3',
+    firstName: 'Ronya',
+    lastName: 'Bradson',
+    telephone: '987654',
+    address: 'Oopsal 84, Oslo',
+    email: 'ronya89@gmail.com',
+  },
+];
 
-const contact2 = new Contact(
-  'Tora',
-  'Martin',
-  '47943890',
-  'Drangedalsgata 138, Skien',
-  'toramartin@gmail.com'
-);
-
-const contact3 = new Contact(
-  'Embla',
-  'Gudmund',
-  '9611098',
-  'Holmstubben 84, Jessheim',
-  'mund90@gmail.com'
-);
-
-contacts.unshift(contact1, contact2, contact3);
 console.log(contacts);
+
+// capitalize the first letter of name
+const capitalizeFirstLetter = function (name) {
+  return name.slice(0, 1).toUpperCase() + name.slice(1).toLowerCase();
+};
+
+// clear form
+const formClear = function () {
+  $('#inputFirstName').val('');
+  $('#inputLastName').val('');
+  $('#inputTelephone').val('');
+  $('#inputAddress').val('');
+  $('#inputEmail').val('');
+};
 
 // Edit contacts
 const onClickEdit = function () {
@@ -66,65 +89,42 @@ const onClickEdit = function () {
     const target = $(this).parent('div');
     const targetID = target[0].id;
     console.log('target id', targetID);
-
     // find the target id
     const [newArr] = contacts.filter((ele) => ele.id === targetID);
-
     console.log('newArr', newArr);
     console.log(newArr.firstName);
 
-    // fill in the preinput
-    const editFirstName = newArr.firstName;
-    const editLastName = newArr.lastName;
-    const editTelephone = newArr.telephone;
-    const editAddress = newArr.address;
-    const editEmail = newArr.email;
-
-    console.log(
-      editFirstName,
-      editLastName,
-      editTelephone,
-      editAddress,
-      editEmail
-    );
     // pre input for edit modal
-    $('#update-inputFirstName').val(editFirstName);
-    $('#update-inputLastName').val(editLastName);
-    $('#update-inputTelephone').val(editTelephone);
-    $('#update-inputAddress').val(editAddress);
-    $('#update-inputEmail').val(editEmail);
+    $('#update-inputFirstName').val(newArr.firstName);
+    $('#update-inputLastName').val(newArr.lastName);
+    $('#update-inputTelephone').val(newArr.telephone);
+    $('#update-inputAddress').val(newArr.address);
+    $('#update-inputEmail').val(newArr.email);
 
-    // update
+    // update click
 
-    console.log(
-      'updated firstname',
-      (newArr.firstName = $('#update-inputFirstName').text())
-    );
+    $('.update-save-btn').click((e) => {
+      e.preventDefault();
+      console.log(e);
+      // update
+      newArr.firstName = $('#update-inputFirstName').val();
+      newArr.lastName = $('#update-inputLastName').val();
+      newArr.telephone = $('#update-inputTelephone').val();
+      newArr.address = $('#update-inputAddress').val();
+      newArr.email = $('#update-inputEmail').val();
+      displayContactList(contacts);
+    });
   });
 };
 
-// update click
-const onClickUpdate = function () {
-  $('.update-save-btn').click((e) => {
+// Add new contact
+const onClickAdd = function () {
+  addBtn.click(function (e) {
     e.preventDefault();
-    console.log(e);
+    // add modal
+    addModal.css('display', 'block').show();
+    closeModal.click(() => addModal.css('display', 'none'));
   });
-};
-
-onClickUpdate();
-
-// capitalize first letter of name
-const capitalizeFirstLetter = function (name) {
-  return name.slice(0, 1).toUpperCase() + name.slice(1).toLowerCase();
-};
-
-// clear form
-const formClear = function () {
-  $('#inputFirstName').val('');
-  $('#inputLastName').val('');
-  $('#inputTelephone').val('');
-  $('#inputAddress').val('');
-  $('#inputEmail').val('');
 };
 
 // Delete contacts
@@ -141,7 +141,7 @@ const onClickDelete = function () {
       }
     }
     console.log(contacts);
-    // displayContactList();
+    // displayContactList(contacts);
     $(this).parent('div').remove();
   });
 };
@@ -183,16 +183,7 @@ const displayContactList = (contacts) => {
   }
 };
 
-// Add new contact
-const onClickAdd = function () {
-  addBtn.click(function (e) {
-    e.preventDefault();
-    // add modal
-    addModal.css('display', 'block').show();
-    closeModal.click(() => addModal.css('display', 'none'));
-  });
-};
-
+// Save new contact
 const onClickSave = function () {
   saveBtn.click((e) => {
     e.preventDefault();
@@ -229,7 +220,6 @@ const onClickSave = function () {
   });
 };
 
-console.log(contacts);
 // Search
 const searchContact = function () {
   searchInput.keyup(function (e) {
@@ -247,7 +237,9 @@ const searchContact = function () {
   });
 };
 
+// calling the functions
 onClickEdit();
+// onClickUpdate();
 onClickSave();
 onClickAdd();
 displayContactList(contacts);
