@@ -9,6 +9,7 @@
 
 ## Features
 * The user is able to create new contacts and delete contacts.
+* * The user is able to edit contacts.
 * The user is able to search contacts.
 
 <img src="./img/img1.PNG" alt="MySmartContact" width="500">
