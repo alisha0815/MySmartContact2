@@ -102,7 +102,6 @@ const onClickEdit = function () {
     $('#update-inputEmail').val(newArr.email);
 
     // update click
-
     $('.update-save-btn').click((e) => {
       e.preventDefault();
       console.log(e);
@@ -239,7 +238,6 @@ const searchContact = function () {
 
 // calling the functions
 onClickEdit();
-// onClickUpdate();
 onClickSave();
 onClickAdd();
 displayContactList(contacts);
